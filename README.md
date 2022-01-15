@@ -13,8 +13,15 @@ names and labels by using a set of regular expressions.
 
 To install this code and in your go environment. You can then add the binary to your `PATH`.
 
-    go get github.com/kumina/unbound_exporter
-    go install github.com/kumina/unbound_exporter
+    go get github.com/letsencrypt/unbound_exporter
+    go install github.com/letsencrypt/unbound_exporter
+
+# Updating dependencies
+
+```
+go get -u
+go mod tidy
+```
 
 - - - -
 
@@ -22,9 +29,14 @@ To install this code and in your go environment. You can then add the binary to 
 
 To show all CLI flags available
 
-    unbound_exporter -h
+    $ unbound_exporter -h
 
-For extended statistics, you may want to add the following to your unbound.conf
+Scrape metrics from the exporter
 
-	# statistics
-	extended-statistics: yes
+    $ curl 127.0.0.1:9167/metrics | grep '^unbound_up'
+    unbound_up 1
+
+From the Unbound [statistics doc](https://www.nlnetlabs.nl/documentation/unbound/howto-statistics/): Unbound has an option to enable extended statistics collection. If enabled, more statistics are collected, for example what types of queries are sent to the resolver. Otherwise, only the total number of queries is collected. Add the following to your `unbound.conf`.
+
+    server:
+	    extended-statistics: yes
